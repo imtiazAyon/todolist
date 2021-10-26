@@ -3,7 +3,6 @@ from django.core.exceptions import PermissionDenied
 #from django.http import HttpResponse
 from .models import List, Todo
 from .serializers import ListSerializer, TodoSerializer
-from .permissions import IsListCreator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
