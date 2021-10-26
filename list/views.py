@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.core.exceptions import PermissionDenied
 #from django.http import HttpResponse
 from .models import List, Todo
 from .serializers import ListSerializer, TodoSerializer
+from .permissions import IsListCreator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,14 +16,40 @@ from rest_framework import status
 #def home(request):
 #      return HttpResponse("Hello World!")
 
-class Show_Lists(APIView):
+
+class UserIsListCreatorMixin:
+     """Verify that the current user is the creator of the list."""
+     def dispatch(self, request, *args, **kwargs):
+        id = int(self.kwargs['pk'])
+        given_list = List.objects.get(id=id)
+        if given_list.user != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ShowAllLists(APIView):
 
     def get(self, request, format=None, **kwargs):
         lists = List.objects.all()
         serializer = ListSerializer(lists, many=True)
         return Response(serializer.data)
 
-class ViewUpdateDeleteTodo(APIView):
+class ShowUserLists(APIView):
+
+    def get(self, request, format=None, **kwargs):
+        lists = List.objects.filter(user=request.user)
+        serializer = ListSerializer(lists, many=True)
+        return Response(serializer.data)
+
+class CreateList(APIView):
+
+    def put(self, request, format=None, **kwargs):
+        serializer = ListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data)
+
+class ViewUpdateDeleteTodo(UserIsListCreatorMixin, APIView):
 
     def get_objects(self):
         id = int(self.kwargs['pk'])
