@@ -14,4 +14,7 @@ class List(models.Model):
 
 class Todo(models.Model):
     content = models.TextField()
-    given_list = models.ForeignKey(List, on_delete=models.CASCADE)
+    given_list = models.ForeignKey(
+        List, 
+        on_delete=models.CASCADE
+        )
