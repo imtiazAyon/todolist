@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}User's Lists{% endblock %}
+
+{% block content %}
+<div class="holder d-flex align-items-center justify-content-center">
+    
+    <div class="container">
+        <header class="text-center mb-5">
+            <h1 class="display-4">{{given_list.title}}</h1>
+        </header>
+
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card rounded border-0 shadow-sm position-relative">
+                    <div class="card-body p-5">
+                        {% for todo in todos %}
+                        	<div class="form-check mb-3">
+                        		<div class="container">
+                        			<div class="row">
+                        				<div class="col-8">
+                            				<label class="form-check-label" for="flexCheck1">{{todo.content}}</label>
+                            			</div>
+                            			<div class="col">
+                        					<form action="http://localhost:8000/{{given_list.id}}/delete?todo_id={{todo.id}}" method="POST" class="form-horizontal">
+  												{% csrf_token %}
+  												<button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+  											</form>
+  										</div>
+  									</div>
+  								</div>	
+  							</div>	
+                        {% endfor %}
+                        <div class="input-group mb-3">
+                        	<div class="container">
+								<form action="http://localhost:8000/{{given_list.id}}/create" method="POST" class="form-horizontal">
+									<div class="row">
+  										{% csrf_token %}
+  										<div class="col-8">
+  											<input type="text" class="form-control" placeholder="Content" required=True name="content">
+  										</div>
+  										<div class="col">
+											<button type="submit" class="btn btn-outline-primary">Add Todo</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+                    </div>
+						
+     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

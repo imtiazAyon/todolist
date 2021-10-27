@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}User's Lists{% endblock %}
+
+{% block content %}
+<div class="holder d-flex align-items-center justify-content-center">
+    
+    <div class="container">
+        <header class="text-center mb-5">
+            <h1 class="display-4">{{user.username}}'s Lists</h1>
+        </header>
+
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card rounded border-0 shadow-sm position-relative">
+                    <div class="card-body p-5">
+                        {% for user_list in user_lists %}
+                        <div class="form-check mb-3">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <a href="http://localhost:8000/{{user_list.id}}">{{user_list.title}}</a>
+                                        </div>
+                                        <div class="col">
+                                            <form action="http://localhost:8000/delete?list_id={{user_list.id}}" method="POST" class="form-horizontal">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+
+                                
+                        {% endfor %}
+                        <div class="input-group mb-3">
+                            <div class="container">
+                                <form action="http://localhost:8000/create/" method="POST" class="form-horizontal">
+                                    <div class="row">
+                                        {% csrf_token %}
+                                        <div class="col-8">
+                                            <input type="text" class="form-control" placeholder="Create a New Todo-List" required=True name="title">
+                                        </div>
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-outline-primary">Create</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+						
+     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

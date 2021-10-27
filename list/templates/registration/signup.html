@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign UP{% endblock %}
+
+{% block content %}
+<div class="holder d-flex align-items-center justify-content-center">   
+    <div class="container">
+        <header class="text-center mb-5">
+            <h1 class="display-4">Sign Up</h1>
+        </header>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card rounded border-0 shadow-sm position-relative">
+                    <div class="card-body p-5">
+                          <div class="form-check mb-3">
+                              <form method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit">Register</button>
+                                <a class="nav-link active" aria-current="page" href="http://localhost:8000/login/">Already have an account</a>
+                        </form>
+                      </div>
+                    </div>
+                  </div>  
+                </div>           
+            </div>
+    </div>
+</div>
+{% endblock %}
