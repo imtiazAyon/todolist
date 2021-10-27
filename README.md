@@ -7,7 +7,6 @@ A todo-list made using django
 <li>PostgreSQL</li>
 <li>Bootstrap</li>
 <li>Djano Rest-Framework</li>
-<li>psycopg2</li>
 </ul>
 <h2>Usage</h2>
 <pre>
